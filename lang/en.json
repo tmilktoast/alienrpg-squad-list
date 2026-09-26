@@ -1,0 +1,17 @@
+{
+  "SQUADLIST": {
+    "Title": "Squad List",
+    "Open": "Squad List",
+    "Empty": "No marines in the squad. Drag characters or a folder of characters from the Actors directory here.",
+    "EmptyPlayer": "No marines in the squad yet.",
+    "Remove": "Remove from squad",
+    "Clear": "Clear squad",
+    "ClearConfirm": "Remove every marine from the squad list?",
+    "Vitals": "Vitals",
+    "Attributes": "Attributes",
+    "Skills": "Skills",
+    "Broken": "Broken",
+    "WrongType": "Only characters and synthetics can join the squad.",
+    "SettingSquad": "Squad members"
+  }
+}

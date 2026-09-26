@@ -1,0 +1,81 @@
+<section class="squad-list-body">
+  {{#if hasMembers}}
+  <div class="squad-table-wrap">
+    <table class="squad-table">
+      <thead>
+        <tr>
+          <th class="stat-label corner">
+            {{#if isGM}}
+            <button type="button" class="icon clear" data-action="clearSquad" data-tooltip="SQUADLIST.Clear">
+              <i class="fa-solid fa-broom"></i>
+            </button>
+            {{/if}}
+          </th>
+          {{#each marines}}
+          <th class="marine {{#if broken}}broken{{/if}}" data-actor-id="{{id}}">
+            <a class="portrait" data-action="openSheet"><img src="{{img}}" alt="{{name}}" /></a>
+            <a class="name" data-action="openSheet">{{name}}</a>
+            {{#if career}}<span class="career">{{career}}</span>{{/if}}
+            {{#if broken}}<span class="status">{{localize "SQUADLIST.Broken"}}</span>{{/if}}
+            {{#if @root.isGM}}
+            <button type="button" class="icon remove" data-action="removeMember" data-tooltip="SQUADLIST.Remove">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            {{/if}}
+          </th>
+          {{/each}}
+        </tr>
+      </thead>
+
+      <tbody class="vitals">
+        <tr class="section"><th colspan="{{colspan}}">{{localize "SQUADLIST.Vitals"}}</th></tr>
+        {{#each vitals}}
+        <tr>
+          <th class="stat-label">{{label}}</th>
+          {{#each cells}}
+          <td class="{{cls}}">
+            <span class="value">{{value}}</span>
+            {{#if meter includeZero=true}}<span class="meter"><span style="width: {{meter}}%"></span></span>{{/if}}
+            {{#if pips}}<span class="pips">{{#each pips}}<i class="{{#if this}}on{{/if}}"></i>{{/each}}</span>{{/if}}
+          </td>
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+
+      <tbody class="attributes">
+        <tr class="section"><th colspan="{{colspan}}">{{localize "SQUADLIST.Attributes"}}</th></tr>
+        {{#each attributes}}
+        <tr>
+          <th class="stat-label">{{label}}</th>
+          {{#each cells}}
+          <td class="{{cls}}" {{#if tooltip}}data-tooltip="{{tooltip}}"{{/if}}>{{value}}</td>
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+
+      <tbody class="skills">
+        <tr class="section"><th colspan="{{colspan}}">{{localize "SQUADLIST.Skills"}}</th></tr>
+        {{#each skillGroups}}
+        <tr class="subsection"><th colspan="{{@root.colspan}}">{{label}}</th></tr>
+        {{#each rows}}
+        <tr>
+          <th class="stat-label">{{label}}</th>
+          {{#each cells}}
+          <td class="{{cls}}" data-tooltip="{{tooltip}}">
+            {{value}}{{#if pool includeZero=true}}<span class="pool">{{pool}}</span>{{/if}}
+          </td>
+          {{/each}}
+        </tr>
+        {{/each}}
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{else}}
+  <p class="empty">
+    {{#if isGM}}{{localize "SQUADLIST.Empty"}}{{else}}{{localize "SQUADLIST.EmptyPlayer"}}{{/if}}
+  </p>
+  {{/if}}
+</section>

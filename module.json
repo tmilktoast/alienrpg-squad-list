@@ -1,0 +1,23 @@
+{
+  "id": "alienrpg-squad-list",
+  "title": "Alien RPG Squad List",
+  "description": "A compact roster of the marines in a squad, one column per marine, showing health, stress, attributes and skills at a glance.",
+  "version": "0.1.0",
+  "authors": [{ "name": "Brian", "email": "brian@gibbous.org" }],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "alienrpg",
+        "type": "system",
+        "compatibility": { "minimum": "4.0.0" }
+      }
+    ]
+  },
+  "esmodules": ["scripts/squad-list.mjs"],
+  "styles": ["styles/squad-list.css"],
+  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }]
+}

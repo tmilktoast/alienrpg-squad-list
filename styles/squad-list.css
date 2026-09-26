@@ -1,0 +1,274 @@
+.squad-list {
+  --sl-accent: #3fbf7f;
+  --sl-warn: #d9a441;
+  --sl-danger: #d9534f;
+  --sl-line: color-mix(in srgb, currentColor 18%, transparent);
+  --sl-faint: color-mix(in srgb, currentColor 45%, transparent);
+  --sl-col: 5.5rem;
+}
+
+.squad-list .window-content {
+  padding: 0;
+}
+
+.squad-list .squad-list-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.squad-list .squad-table-wrap {
+  flex: 1;
+  overflow: auto;
+}
+
+.squad-list .empty {
+  margin: auto;
+  padding: 2rem;
+  max-width: 24rem;
+  text-align: center;
+  color: var(--sl-faint);
+}
+
+/* Table ------------------------------------------------------------------ */
+
+.squad-list .squad-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  font-size: var(--font-size-13, 13px);
+  width: max-content;
+  min-width: 100%;
+}
+
+.squad-list .squad-table tr,
+.squad-list .squad-table tbody tr:nth-child(odd),
+.squad-list .squad-table tbody tr:nth-child(even) {
+  background: none;
+}
+
+.squad-list .squad-table th,
+.squad-list .squad-table td {
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--sl-line);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.squad-list .squad-table td {
+  width: var(--sl-col);
+  min-width: var(--sl-col);
+  font-variant-numeric: tabular-nums;
+}
+
+.squad-list .squad-table tbody tr:not(.section, .subsection):hover > * {
+  background: color-mix(in srgb, var(--sl-accent) 10%, transparent);
+}
+
+/* Sticky stat labels and marine headers keep context while scrolling. */
+.squad-list .stat-label {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  text-align: left;
+  font-weight: normal;
+  white-space: nowrap;
+  background: var(--color-cool-5, var(--color-bg, #1b1d24));
+}
+
+.squad-list thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-cool-5, var(--color-bg, #1b1d24));
+  border-bottom: 2px solid var(--sl-accent);
+}
+
+.squad-list thead th.corner {
+  left: 0;
+  z-index: 3;
+  vertical-align: bottom;
+}
+
+.squad-list .section th {
+  padding-top: 10px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8em;
+  color: var(--sl-accent);
+  border-bottom-color: var(--sl-accent);
+}
+
+.squad-list .subsection th {
+  text-align: left;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-faint);
+  padding-top: 6px;
+}
+
+/* Marine header ---------------------------------------------------------- */
+
+.squad-list th.marine {
+  position: sticky;
+  width: var(--sl-col);
+  min-width: var(--sl-col);
+  padding: 6px 4px;
+  font-weight: normal;
+}
+
+.squad-list .marine > * {
+  display: block;
+}
+
+.squad-list .marine .portrait img {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 4px;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--sl-line);
+  border-radius: 4px;
+}
+
+.squad-list .marine .name {
+  font-weight: bold;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.squad-list .marine .career {
+  font-size: 0.8em;
+  color: var(--sl-faint);
+}
+
+.squad-list .marine .status {
+  margin-top: 2px;
+  font-size: 0.75em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--sl-danger);
+}
+
+.squad-list .marine.broken .portrait img {
+  filter: grayscale(1);
+  border-color: var(--sl-danger);
+}
+
+.squad-list button.icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  border: none;
+  background: none;
+  color: var(--sl-faint);
+}
+
+.squad-list button.icon:hover {
+  color: var(--sl-danger);
+}
+
+.squad-list .marine .remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  opacity: 0;
+}
+
+.squad-list .marine:hover .remove {
+  opacity: 1;
+}
+
+/* Cells ------------------------------------------------------------------ */
+
+.squad-list td.muted,
+.squad-list td.zero {
+  color: var(--sl-faint);
+}
+
+.squad-list td.modified {
+  font-weight: bold;
+  color: var(--sl-accent);
+}
+
+.squad-list td.warn .value {
+  color: var(--sl-warn);
+  font-weight: bold;
+}
+
+.squad-list td.danger .value {
+  color: var(--sl-danger);
+  font-weight: bold;
+}
+
+.squad-list .pool {
+  margin-left: 4px;
+  font-size: 0.8em;
+  color: var(--sl-faint);
+}
+
+.squad-list .pool::before {
+  content: "/";
+  margin-right: 2px;
+}
+
+.squad-list .meter {
+  display: block;
+  height: 4px;
+  margin-top: 3px;
+  border-radius: 2px;
+  background: var(--sl-line);
+  overflow: hidden;
+}
+
+.squad-list .meter > span {
+  display: block;
+  height: 100%;
+  background: var(--sl-accent);
+}
+
+.squad-list td.warn .meter > span {
+  background: var(--sl-warn);
+}
+
+.squad-list td.danger .meter > span {
+  background: var(--sl-danger);
+}
+
+.squad-list .pips {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+.squad-list .pips i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sl-line);
+}
+
+.squad-list .pips i.on {
+  background: var(--sl-warn);
+}
+
+.squad-list td.danger .pips i.on {
+  background: var(--sl-danger);
+}
+
+/* Actors directory button */
+#actors .header-actions .squad-list-open {
+  flex: 0 0 100%;
+}

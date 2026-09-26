@@ -21,12 +21,20 @@ It opens a single window with one column per marine, showing:
 The squad is stored as a world setting, so every user sees the same list. Players only see the
 marines they have at least Observer permission on.
 
-## Install for development
+## Local development
 
-Symlink this folder into your Foundry data directory:
+A local Foundry (Node.js build) runs from `~/foundryvtt` with its data in `~/foundrydata`. This
+folder is symlinked into its modules directory, so edits go live on a browser refresh:
 
 ```sh
-ln -s "$PWD" ~/.local/share/FoundryVTT/Data/modules/alienrpg-squad-list
+ln -s "$PWD" ~/foundrydata/Data/modules/alienrpg-squad-list   # once
+node ~/foundryvtt/main.js --dataPath=$HOME/foundrydata         # then open http://localhost:30000
 ```
 
-Then enable **Alien RPG Squad List** in a world that uses the Alien RPG system.
+Changes to `module.json` need a return to Setup; everything else only needs F5.
+
+## Manual install on a server
+
+`./build.sh` packages the last commit as `dist/alienrpg-squad-list-<version>.zip`. Unzip it into
+the server's `Data/modules/`, restart Foundry, and enable **Alien RPG Squad List** in an Alien RPG
+world.

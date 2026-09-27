@@ -10,5 +10,5 @@ out="dist/${id}-${version}.zip"
 
 mkdir -p dist
 git archive --format=zip --prefix="${id}/" -o "$out" HEAD \
-  module.json README.md lang scripts styles templates
+  module.json README.md CHANGELOG.md lang scripts styles templates
 echo "$out"

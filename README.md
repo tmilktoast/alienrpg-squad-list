@@ -1,5 +1,7 @@
 # Alien RPG Squad List
 
+NOTE: This is 100% for personal use and 100% vibe coded. Anyone is welcome to do what they will with it, should they stumble upon it. 
+
 A Foundry VTT module for the [Alien RPG system](https://github.com/pwatson100/alienrpg) (`alienrpg` 4.x, Foundry v13–v14).
 It opens a single window with one column per marine, showing:
 

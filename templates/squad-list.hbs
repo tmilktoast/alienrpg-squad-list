@@ -16,6 +16,11 @@
             <a class="portrait" data-action="openSheet"><img src="{{img}}" alt="{{name}}" /></a>
             <a class="name" data-action="openSheet">{{name}}</a>
             {{#if career}}<span class="career">{{career}}</span>{{/if}}
+            {{#if talentCount}}
+            <span class="talents" data-tooltip-html="{{talentTooltip}}" data-tooltip-class="squad-list-talents">
+              <i class="fa-solid fa-star"></i> {{talentCount}}
+            </span>
+            {{/if}}
             {{#if broken}}<span class="status">{{localize "SQUADLIST.Broken"}}</span>{{/if}}
             {{#if @root.isGM}}
             <button type="button" class="icon remove" data-action="removeMember" data-tooltip="SQUADLIST.Remove">

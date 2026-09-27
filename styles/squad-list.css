@@ -147,6 +147,27 @@
   color: var(--sl-faint);
 }
 
+.squad-list .marine .talents {
+  margin-top: 2px;
+  font-size: 0.8em;
+  color: var(--sl-faint);
+  cursor: help;
+}
+
+.squad-list .marine .talents i {
+  font-size: 0.85em;
+}
+
+/* The tooltip lives outside the window, so it's styled by its own class. */
+#tooltip.squad-list-talents {
+  text-align: left;
+}
+
+#tooltip.squad-list-talents ul {
+  margin: 4px 0 0;
+  padding-left: 1.2em;
+}
+
 .squad-list .marine .status {
   margin-top: 2px;
   font-size: 0.75em;

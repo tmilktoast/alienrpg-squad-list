@@ -44,6 +44,10 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
       const sys = actor.system;
       const careerKey = sys.general?.career?.value;
       const career = cfg.career_list?.[careerKey]?.label;
+      const talents = actor.items
+        .filter((i) => i.type === "talent")
+        .map((i) => i.name)
+        .sort((a, b) => a.localeCompare(b, game.i18n.lang));
       return {
         id: actor.id,
         name: actor.name,
@@ -51,6 +55,8 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
         career: career ? game.i18n.localize(career) : "",
         broken: sys.header.health.value <= 0,
         isSynthetic: actor.type === "synthetic",
+        talentCount: talents.length,
+        talentTooltip: talents.length ? talentTooltip(talents) : "",
       };
     });
 
@@ -180,6 +186,13 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
     });
     if (ok) await setSquadIds([]);
   }
+}
+
+/** An HTML list of talent names for the header tooltip. */
+function talentTooltip(names) {
+  const { escapeHTML } = foundry.utils;
+  const items = names.map((n) => `<li>${escapeHTML(n)}</li>`).join("");
+  return `<strong>${game.i18n.localize("SQUADLIST.Talents")}</strong><ul>${items}</ul>`;
 }
 
 function getSquadIds() {

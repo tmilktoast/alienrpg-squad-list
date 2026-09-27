@@ -289,6 +289,101 @@
   background: var(--sl-danger);
 }
 
+/* Horizontal layout ------------------------------------------------------ */
+/* One row per marine. Two header rows (sections, then stat names) stay pinned while
+   scrolling down, and the marine column stays pinned while scrolling across. */
+
+.squad-list .horizontal {
+  --sl-sec-h: 1.6rem;
+}
+
+.squad-list .horizontal thead tr.sections th {
+  height: var(--sl-sec-h);
+  box-sizing: border-box;
+  padding-top: 3px;
+}
+
+.squad-list .horizontal thead tr.labels th {
+  top: var(--sl-sec-h);
+}
+
+.squad-list .horizontal thead tr.sections th:not(.corner) {
+  border-bottom: 1px solid var(--sl-line);
+}
+
+.squad-list .horizontal th.section {
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8em;
+  font-weight: normal;
+  color: var(--sl-accent);
+}
+
+.squad-list .horizontal th.col-label {
+  max-width: var(--sl-col);
+  font-size: 0.8em;
+  font-weight: normal;
+  line-height: 1.15;
+  vertical-align: bottom;
+  color: var(--sl-faint);
+}
+
+/* Columns size to content so a full row of stats fits a wide window. */
+.squad-list .horizontal .squad-table td {
+  width: auto;
+  min-width: 3.25rem;
+}
+
+.squad-list .horizontal .meter {
+  min-width: 3.5rem;
+}
+
+.squad-list .horizontal .group-start {
+  border-left: 1px solid var(--sl-line);
+}
+
+.squad-list .horizontal thead th.corner {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.squad-list .horizontal th.marine {
+  left: 0;
+  z-index: 1;
+  width: auto;
+  min-width: 12rem;
+  padding: 4px 24px 4px 6px;
+  text-align: left;
+  white-space: nowrap;
+  background: var(--color-cool-5, var(--color-bg, #1b1d24));
+}
+
+.squad-list .horizontal .marine > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.squad-list .horizontal .marine .portrait img {
+  width: 36px;
+  height: 36px;
+  margin: 0 6px 0 0;
+}
+
+.squad-list .horizontal .marine .ident > * {
+  display: block;
+}
+
+.squad-list .horizontal .marine .sub > * {
+  display: inline;
+  margin: 0 6px 0 0;
+}
+
+.squad-list .horizontal .marine .remove {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* Actors directory button */
 #actors .header-actions .squad-list-open {
   flex: 0 0 100%;

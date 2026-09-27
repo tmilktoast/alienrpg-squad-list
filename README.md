@@ -3,7 +3,8 @@
 NOTE: This is 100% for personal use and 100% vibe coded. Anyone is welcome to do what they will with it, should they stumble upon it. 
 
 A Foundry VTT module for the [Alien RPG system](https://github.com/pwatson100/alienrpg) (`alienrpg` 4.x, Foundry v13–v14).
-It opens a single window with one column per marine, showing:
+It opens a single window with one column per marine (or one row per marine in the horizontal
+layout), showing:
 
 - **Vitals** — health (current / max, with a bar), stress (with 10 pips), and resolve when the
   system's *Evolved* rules are on
@@ -19,6 +20,8 @@ It opens a single window with one column per marine, showing:
 - GM: drag characters (or a whole folder of actors) from the Actors directory onto the window to
   add them. Hover a marine's column and click × to remove them, or use the broom to clear the list.
 - Click a portrait or name to open that character's sheet.
+- The table icon in the top-left corner switches between the vertical and horizontal layouts.
+  Each user's choice is remembered, and it's also under **Configure Settings → Squad list layout**.
 - The list updates live when health, stress, items or effects change.
 
 The squad is stored as a world setting, so every user sees the same list. Players only see the

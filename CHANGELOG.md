@@ -8,3 +8,5 @@
 - Squad stored as a world setting; players see only marines they can observe.
 - Live updates on actor, item and effect changes.
 - Talent count under each marine's name; hover to list their talents.
+- Horizontal layout (one row per marine) alongside the vertical one; toggle from the window
+  corner or in module settings. Stored per user.

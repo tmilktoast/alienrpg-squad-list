@@ -1,10 +1,75 @@
-<section class="squad-list-body">
+{{#*inline "talents"}}
+{{#if talentCount}}
+<span class="talents" data-tooltip-html="{{talentTooltip}}" data-tooltip-class="squad-list-talents">
+  <i class="fa-solid fa-star"></i> {{talentCount}}
+</span>
+{{/if}}
+{{/inline}}
+
+{{#*inline "remove"}}
+{{#if @root.isGM}}
+<button type="button" class="icon remove" data-action="removeMember" data-tooltip="SQUADLIST.Remove">
+  <i class="fa-solid fa-xmark"></i>
+</button>
+{{/if}}
+{{/inline}}
+
+<section class="squad-list-body {{#if horizontal}}horizontal{{else}}vertical{{/if}}">
   {{#if hasMembers}}
   <div class="squad-table-wrap">
     <table class="squad-table">
+      {{#if horizontal}}
+      <thead>
+        <tr class="sections">
+          <th class="corner" rowspan="2">
+            <button type="button" class="icon" data-action="toggleLayout" data-tooltip="{{layoutTooltip}}">
+              <i class="fa-solid fa-table-columns"></i>
+            </button>
+            {{#if isGM}}
+            <button type="button" class="icon clear" data-action="clearSquad" data-tooltip="SQUADLIST.Clear">
+              <i class="fa-solid fa-broom"></i>
+            </button>
+            {{/if}}
+          </th>
+          <th class="section group-start" colspan="{{sectionSpans.vitals}}">{{localize "SQUADLIST.Vitals"}}</th>
+          <th class="section group-start" colspan="{{sectionSpans.attributes}}">{{localize "SQUADLIST.Attributes"}}</th>
+          <th class="section group-start" colspan="{{sectionSpans.skills}}">{{localize "SQUADLIST.Skills"}}</th>
+        </tr>
+        <tr class="labels">
+          {{#each columns}}
+          <th class="col-label {{#if groupStart}}group-start{{/if}}" {{#if tooltip}}data-tooltip="{{tooltip}}"{{/if}}>{{label}}</th>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each marineRows}}
+        <tr>
+          <th class="marine {{#if broken}}broken{{/if}}" data-actor-id="{{id}}">
+            <a class="portrait" data-action="openSheet"><img src="{{img}}" alt="{{name}}" /></a>
+            <span class="ident">
+              <a class="name" data-action="openSheet">{{name}}</a>
+              <span class="sub">
+                {{#if career}}<span class="career">{{career}}</span>{{/if}}
+                {{> talents}}
+                {{#if broken}}<span class="status">{{localize "SQUADLIST.Broken"}}</span>{{/if}}
+              </span>
+            </span>
+            {{> remove}}
+          </th>
+          {{#each cells}}
+          {{> "modules/alienrpg-squad-list/templates/cell.hbs"}}
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+
+      {{else}}
       <thead>
         <tr>
           <th class="stat-label corner">
+            <button type="button" class="icon" data-action="toggleLayout" data-tooltip="{{layoutTooltip}}">
+              <i class="fa-solid fa-table-list"></i>
+            </button>
             {{#if isGM}}
             <button type="button" class="icon clear" data-action="clearSquad" data-tooltip="SQUADLIST.Clear">
               <i class="fa-solid fa-broom"></i>
@@ -16,17 +81,9 @@
             <a class="portrait" data-action="openSheet"><img src="{{img}}" alt="{{name}}" /></a>
             <a class="name" data-action="openSheet">{{name}}</a>
             {{#if career}}<span class="career">{{career}}</span>{{/if}}
-            {{#if talentCount}}
-            <span class="talents" data-tooltip-html="{{talentTooltip}}" data-tooltip-class="squad-list-talents">
-              <i class="fa-solid fa-star"></i> {{talentCount}}
-            </span>
-            {{/if}}
+            {{> talents}}
             {{#if broken}}<span class="status">{{localize "SQUADLIST.Broken"}}</span>{{/if}}
-            {{#if @root.isGM}}
-            <button type="button" class="icon remove" data-action="removeMember" data-tooltip="SQUADLIST.Remove">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-            {{/if}}
+            {{> remove}}
           </th>
           {{/each}}
         </tr>
@@ -37,13 +94,7 @@
         {{#each vitals}}
         <tr>
           <th class="stat-label">{{label}}</th>
-          {{#each cells}}
-          <td class="{{cls}}">
-            <span class="value">{{value}}</span>
-            {{#if meter includeZero=true}}<span class="meter"><span style="width: {{meter}}%"></span></span>{{/if}}
-            {{#if pips}}<span class="pips">{{#each pips}}<i class="{{#if this}}on{{/if}}"></i>{{/each}}</span>{{/if}}
-          </td>
-          {{/each}}
+          {{#each cells}}{{> "modules/alienrpg-squad-list/templates/cell.hbs"}}{{/each}}
         </tr>
         {{/each}}
       </tbody>
@@ -53,9 +104,7 @@
         {{#each attributes}}
         <tr>
           <th class="stat-label">{{label}}</th>
-          {{#each cells}}
-          <td class="{{cls}}" {{#if tooltip}}data-tooltip="{{tooltip}}"{{/if}}>{{value}}</td>
-          {{/each}}
+          {{#each cells}}{{> "modules/alienrpg-squad-list/templates/cell.hbs"}}{{/each}}
         </tr>
         {{/each}}
       </tbody>
@@ -67,15 +116,12 @@
         {{#each rows}}
         <tr>
           <th class="stat-label">{{label}}</th>
-          {{#each cells}}
-          <td class="{{cls}}" data-tooltip="{{tooltip}}">
-            {{value}}{{#if pool includeZero=true}}<span class="pool">{{pool}}</span>{{/if}}
-          </td>
-          {{/each}}
+          {{#each cells}}{{> "modules/alienrpg-squad-list/templates/cell.hbs"}}{{/each}}
         </tr>
         {{/each}}
         {{/each}}
       </tbody>
+      {{/if}}
     </table>
   </div>
   {{else}}

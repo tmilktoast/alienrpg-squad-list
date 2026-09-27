@@ -1,0 +1,6 @@
+<td class="{{cls}} {{#if groupStart}}group-start{{/if}}" {{#if tooltip}}data-tooltip="{{tooltip}}"{{/if}}>
+  <span class="value">{{value}}</span>
+  {{#if pool includeZero=true}}<span class="pool">{{pool}}</span>{{/if}}
+  {{#if meter includeZero=true}}<span class="meter"><span style="width: {{meter}}%"></span></span>{{/if}}
+  {{#if pips}}<span class="pips">{{#each pips}}<i class="{{#if this}}on{{/if}}"></i>{{/each}}</span>{{/if}}
+</td>

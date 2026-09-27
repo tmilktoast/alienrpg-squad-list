@@ -13,6 +13,12 @@
     "Talents": "Talents",
     "Broken": "Broken",
     "WrongType": "Only characters and synthetics can join the squad.",
-    "SettingSquad": "Squad members"
+    "SettingSquad": "Squad members",
+    "SettingLayout": "Squad list layout",
+    "SettingLayoutHint": "Vertical shows one column per marine; horizontal shows one row per marine.",
+    "LayoutVertical": "Vertical: one column per marine",
+    "LayoutHorizontal": "Horizontal: one row per marine",
+    "SwitchVertical": "Switch to vertical layout",
+    "SwitchHorizontal": "Switch to horizontal layout"
   }
 }

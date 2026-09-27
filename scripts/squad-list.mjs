@@ -1,11 +1,19 @@
 const MODULE_ID = "alienrpg-squad-list";
 const SETTING_SQUAD = "squad";
+const SETTING_LAYOUT = "layout";
 const MEMBER_TYPES = ["character", "synthetic"];
+
+/** Default window size for each layout, applied on open and when switching. */
+const LAYOUT_SIZE = {
+  vertical: { width: 640, height: 720 },
+  horizontal: { width: 1280, height: 420 },
+};
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
- * A single-window roster: one column per marine, one row per stat.
+ * A single-window roster. The vertical layout has one column per marine and one row per
+ * stat; the horizontal layout transposes it to one row per marine.
  */
 class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
@@ -21,6 +29,7 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
       openSheet: SquadList.#onOpenSheet,
       removeMember: SquadList.#onRemoveMember,
       clearSquad: SquadList.#onClearSquad,
+      toggleLayout: SquadList.#onToggleLayout,
     },
   };
 
@@ -113,6 +122,7 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
     // Skills are grouped under their governing attribute. Each cell shows skill
     // ranks, with the full dice pool (ranks + attribute + modifiers) alongside.
     const skillGroups = Object.entries(cfg.attributes).map(([attrKey, attrLabel]) => ({
+      key: attrKey,
       label: game.i18n.localize(attrLabel),
       rows: Object.entries(cfg.skills)
         .filter(([, def]) => def.attrib === attrKey)
@@ -130,8 +140,38 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
         })),
     }));
 
+    const horizontal = getLayout() === "horizontal";
+
+    // The horizontal layout needs the same stats as columns: flatten the row groups
+    // into a column list, then give each marine its cells in column order.
+    let columns = [];
+    let marineRows = [];
+    if (horizontal) {
+      const col = (row, section, groupStart = false) => ({ ...row, section, groupStart });
+      columns = [
+        ...vitals.map((r, i) => col(r, "vitals", i === 0)),
+        ...attributes.map((r, i) => col(r, "attributes", i === 0)),
+        ...skillGroups.flatMap((g) =>
+          g.rows.map((r, i) => col({ ...r, tooltip: `${g.label}: ${r.label}` }, "skills", i === 0)),
+        ),
+      ];
+      marineRows = marines.map((m, i) => ({
+        ...m,
+        cells: columns.map((c) => ({ ...c.cells[i], groupStart: c.groupStart })),
+      }));
+    }
+
     return {
       isGM: game.user.isGM,
+      horizontal,
+      layoutTooltip: horizontal ? "SQUADLIST.SwitchVertical" : "SQUADLIST.SwitchHorizontal",
+      columns,
+      marineRows,
+      sectionSpans: {
+        vitals: vitals.length,
+        attributes: attributes.length,
+        skills: skillGroups.reduce((n, g) => n + g.rows.length, 0),
+      },
       hasMembers: members.length > 0,
       marines,
       vitals,
@@ -179,6 +219,10 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
     await setSquadIds(getSquadIds().filter((i) => i !== id));
   }
 
+  static #onToggleLayout() {
+    return game.settings.set(MODULE_ID, SETTING_LAYOUT, getLayout() === "horizontal" ? "vertical" : "horizontal");
+  }
+
   static async #onClearSquad() {
     const ok = await foundry.applications.api.DialogV2.confirm({
       window: { title: "SQUADLIST.Clear" },
@@ -195,6 +239,10 @@ function talentTooltip(names) {
   return `<strong>${game.i18n.localize("SQUADLIST.Talents")}</strong><ul>${items}</ul>`;
 }
 
+function getLayout() {
+  return game.settings.get(MODULE_ID, SETTING_LAYOUT);
+}
+
 function getSquadIds() {
   return [...game.settings.get(MODULE_ID, SETTING_SQUAD)];
 }
@@ -205,7 +253,7 @@ function setSquadIds(ids) {
 
 let app;
 function openSquadList() {
-  app ??= new SquadList();
+  app ??= new SquadList({ position: { ...LAYOUT_SIZE[getLayout()] } });
   return app.render({ force: true });
 }
 
@@ -224,7 +272,29 @@ Hooks.once("init", () => {
     onChange: refresh,
   });
 
-  foundry.applications.handlebars.loadTemplates([`modules/${MODULE_ID}/templates/squad-list.hbs`]);
+  // Layout is a personal preference, so it's stored per client.
+  game.settings.register(MODULE_ID, SETTING_LAYOUT, {
+    name: "SQUADLIST.SettingLayout",
+    hint: "SQUADLIST.SettingLayoutHint",
+    scope: "client",
+    config: true,
+    type: String,
+    choices: {
+      vertical: "SQUADLIST.LayoutVertical",
+      horizontal: "SQUADLIST.LayoutHorizontal",
+    },
+    default: "vertical",
+    onChange: (layout) => {
+      if (!app?.rendered) return;
+      app.setPosition(LAYOUT_SIZE[layout]);
+      app.render();
+    },
+  });
+
+  foundry.applications.handlebars.loadTemplates([
+    `modules/${MODULE_ID}/templates/squad-list.hbs`,
+    `modules/${MODULE_ID}/templates/cell.hbs`,
+  ]);
 
   game.modules.get(MODULE_ID).api = { open: openSquadList, SquadList };
 });

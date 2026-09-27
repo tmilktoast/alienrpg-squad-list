@@ -283,7 +283,7 @@ Hooks.once("init", () => {
       vertical: "SQUADLIST.LayoutVertical",
       horizontal: "SQUADLIST.LayoutHorizontal",
     },
-    default: "vertical",
+    default: "horizontal",
     onChange: (layout) => {
       if (!app?.rendered) return;
       app.setPosition(LAYOUT_SIZE[layout]);

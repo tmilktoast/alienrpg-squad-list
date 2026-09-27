@@ -8,6 +8,7 @@ It opens a single window with one column per marine, showing:
 - **Attributes** — effective Strength, Agility, Wits and Empathy; values changed by talents,
   gear or effects are highlighted, and the tooltip shows base → effective
 - **Skills** — grouped by attribute, shown as `ranks / dice pool`
+- **Talents** — a star count under each name; hover it to list them
 
 ## Usage
 

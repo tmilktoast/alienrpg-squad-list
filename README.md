@@ -33,6 +33,21 @@ node ~/foundryvtt/main.js --dataPath=$HOME/foundrydata         # then open http:
 
 Changes to `module.json` need a return to Setup; everything else only needs F5.
 
+## Install
+
+In Foundry's **Install Module** dialog, paste the manifest URL:
+
+```
+https://github.com/tmilktoast/alienrpg-squad-list/releases/latest/download/module.json
+```
+
+## Releasing
+
+1. Bump `version` in `module.json` (the `download` URL follows it), add a CHANGELOG entry, commit.
+2. Run `./build.sh`.
+3. Create a GitHub release tagged `v<version>` and attach both `dist/alienrpg-squad-list-<version>.zip`
+   and `dist/module.json`.
+
 ## Manual install on a server
 
 `./build.sh` packages the last commit as `dist/alienrpg-squad-list-<version>.zip`. Unzip it into

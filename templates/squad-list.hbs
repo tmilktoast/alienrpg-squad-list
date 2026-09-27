@@ -6,6 +6,15 @@
 {{/if}}
 {{/inline}}
 
+{{#*inline "zoom"}}
+<button type="button" class="icon" data-action="zoomOut" data-tooltip="SQUADLIST.ZoomOut" {{#unless @root.canZoomOut}}disabled{{/unless}}>
+  <i class="fa-solid fa-magnifying-glass-minus"></i>
+</button>
+<button type="button" class="icon" data-action="zoomIn" data-tooltip="SQUADLIST.ZoomIn" {{#unless @root.canZoomIn}}disabled{{/unless}}>
+  <i class="fa-solid fa-magnifying-glass-plus"></i>
+</button>
+{{/inline}}
+
 {{#*inline "remove"}}
 {{#if @root.isGM}}
 <button type="button" class="icon remove" data-action="removeMember" data-tooltip="SQUADLIST.Remove">
@@ -17,7 +26,7 @@
 <section class="squad-list-body {{#if horizontal}}horizontal{{else}}vertical{{/if}}">
   {{#if hasMembers}}
   <div class="squad-table-wrap">
-    <table class="squad-table">
+    <table class="squad-table" style="zoom: {{scale}}">
       {{#if horizontal}}
       <thead>
         <tr class="sections">
@@ -25,6 +34,7 @@
             <button type="button" class="icon" data-action="toggleLayout" data-tooltip="{{layoutTooltip}}">
               <i class="fa-solid fa-table-columns"></i>
             </button>
+            {{> zoom}}
             {{#if isGM}}
             <button type="button" class="icon clear" data-action="clearSquad" data-tooltip="SQUADLIST.Clear">
               <i class="fa-solid fa-broom"></i>
@@ -70,6 +80,7 @@
             <button type="button" class="icon" data-action="toggleLayout" data-tooltip="{{layoutTooltip}}">
               <i class="fa-solid fa-table-list"></i>
             </button>
+            {{> zoom}}
             {{#if isGM}}
             <button type="button" class="icon clear" data-action="clearSquad" data-tooltip="SQUADLIST.Clear">
               <i class="fa-solid fa-broom"></i>

@@ -10,3 +10,4 @@
 - Talent count under each marine's name; hover to list their talents.
 - Horizontal (one row per marine, the default) and vertical (one column per marine) layouts;
   toggle from the window corner or in module settings. Remembered per browser.
+- Text size buttons in the window corner, in four steps from 90% to 130%.

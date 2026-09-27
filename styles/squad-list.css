@@ -200,6 +200,15 @@
   color: var(--sl-danger);
 }
 
+.squad-list button.icon:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.squad-list button.icon:disabled:hover {
+  color: var(--sl-faint);
+}
+
 .squad-list .marine .remove {
   position: absolute;
   top: 2px;

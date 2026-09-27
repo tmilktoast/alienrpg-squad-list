@@ -1,6 +1,10 @@
 const MODULE_ID = "alienrpg-squad-list";
 const SETTING_SQUAD = "squad";
 const SETTING_LAYOUT = "layout";
+const SETTING_SCALE = "scale";
+
+/** Text size steps for the zoom buttons: slightly smaller, normal, and two larger. */
+const SCALE_STEPS = [0.9, 1, 1.15, 1.3];
 const MEMBER_TYPES = ["character", "synthetic"];
 
 /** Default window size for each layout, applied on open and when switching. */
@@ -30,6 +34,8 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
       removeMember: SquadList.#onRemoveMember,
       clearSquad: SquadList.#onClearSquad,
       toggleLayout: SquadList.#onToggleLayout,
+      zoomOut: SquadList.#onZoom,
+      zoomIn: SquadList.#onZoom,
     },
   };
 
@@ -161,9 +167,14 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
       }));
     }
 
+    const scale = getScale();
+
     return {
       isGM: game.user.isGM,
       horizontal,
+      scale,
+      canZoomOut: scale > SCALE_STEPS[0],
+      canZoomIn: scale < SCALE_STEPS.at(-1),
       layoutTooltip: horizontal ? "SQUADLIST.SwitchVertical" : "SQUADLIST.SwitchHorizontal",
       columns,
       marineRows,
@@ -223,6 +234,13 @@ class SquadList extends HandlebarsApplicationMixin(ApplicationV2) {
     return game.settings.set(MODULE_ID, SETTING_LAYOUT, getLayout() === "horizontal" ? "vertical" : "horizontal");
   }
 
+  static #onZoom(event, target) {
+    const i = SCALE_STEPS.indexOf(getScale());
+    const step = target.dataset.action === "zoomIn" ? 1 : -1;
+    const next = SCALE_STEPS[Math.clamp(i + step, 0, SCALE_STEPS.length - 1)];
+    return game.settings.set(MODULE_ID, SETTING_SCALE, next);
+  }
+
   static async #onClearSquad() {
     const ok = await foundry.applications.api.DialogV2.confirm({
       window: { title: "SQUADLIST.Clear" },
@@ -241,6 +259,12 @@ function talentTooltip(names) {
 
 function getLayout() {
   return game.settings.get(MODULE_ID, SETTING_LAYOUT);
+}
+
+/** The current text scale, snapped to a known step in case the stored value is stale. */
+function getScale() {
+  const value = game.settings.get(MODULE_ID, SETTING_SCALE);
+  return SCALE_STEPS.includes(value) ? value : 1;
 }
 
 function getSquadIds() {
@@ -289,6 +313,14 @@ Hooks.once("init", () => {
       app.setPosition(LAYOUT_SIZE[layout]);
       app.render();
     },
+  });
+
+  game.settings.register(MODULE_ID, SETTING_SCALE, {
+    scope: "client",
+    config: false,
+    type: Number,
+    default: 1,
+    onChange: refresh,
   });
 
   foundry.applications.handlebars.loadTemplates([

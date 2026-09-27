@@ -19,6 +19,8 @@
     "LayoutVertical": "Vertical: one column per marine",
     "LayoutHorizontal": "Horizontal: one row per marine",
     "SwitchVertical": "Switch to vertical layout",
-    "SwitchHorizontal": "Switch to horizontal layout"
+    "SwitchHorizontal": "Switch to horizontal layout",
+    "ZoomOut": "Smaller text",
+    "ZoomIn": "Larger text"
   }
 }

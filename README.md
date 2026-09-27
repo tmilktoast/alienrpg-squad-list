@@ -22,6 +22,8 @@ layout), showing:
 - Click a portrait or name to open that character's sheet.
 - The table icon in the top-left corner switches between the vertical and horizontal layouts.
   The choice is remembered per browser, and it's also under **Configure Settings → Squad list layout**.
+- The magnifier buttons next to it step the text size between 90%, 100%, 115% and 130%
+  (also remembered per browser).
 - The list updates live when health, stress, items or effects change.
 
 The squad is stored as a world setting, so every user sees the same list. Players only see the
